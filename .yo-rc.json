@@ -1,0 +1,36 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "com.wlminus.ufp"
+    },
+    "jhipsterVersion": "6.5.1",
+    "applicationType": "monolith",
+    "baseName": "register",
+    "packageName": "com.wlminus.ufp",
+    "packageFolder": "com/wlminus/ufp",
+    "serverPort": "8080",
+    "authenticationType": "jwt",
+    "cacheProvider": "ehcache",
+    "enableHibernateCache": false,
+    "websocket": false,
+    "databaseType": "cassandra",
+    "devDatabaseType": "cassandra",
+    "prodDatabaseType": "cassandra",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": false,
+    "buildTool": "maven",
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "YmU3MzdiOThjZmFhYmI1MTg2ZDkxY2I3YmI3YTJhODgyYjIyMTNmYjU3MTM2ZWM0NzhmZTc2MTRjODJlN2M5NmY0YWYyM2FhNzc3YmJmOGNmYzg5NDFhMzMyZjZjZjZiMmNlOGQwODEyNDdlYjA4NDlkOGZmNDEyZjAwOWQ2NTM=",
+    "embeddableLaunchScript": false,
+    "testFrameworks": [],
+    "jhiPrefix": "jhi",
+    "entitySuffix": "",
+    "dtoSuffix": "DTO",
+    "otherModules": [],
+    "enableTranslation": false,
+    "clientPackageManager": "npm",
+    "blueprints": [],
+    "skipClient": true
+  }
+}
