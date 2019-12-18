@@ -1,0 +1,32 @@
+{
+  "name": "StudentRegisterStatus",
+  "fields": [
+    {
+      "fieldName": "studentId",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "isPrior",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "maxRegister",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "currentRegister",
+      "fieldType": "Long"
+    }
+  ],
+  "relationships": [],
+  "changelogDate": "20191215083529",
+  "entityTableName": "student_register_status",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

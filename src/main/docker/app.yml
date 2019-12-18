@@ -9,7 +9,7 @@ services:
       - SPRING_DATA_CASSANDRA_CONTACTPOINTS=register-cassandra
       - JHIPSTER_SLEEP=30 # gives time for other services to boot before the application
     ports:
-      - 8080:8080
+      - 9821:9821
   register-cassandra:
     extends:
       file: cassandra-cluster.yml

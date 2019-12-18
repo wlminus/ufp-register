@@ -1,0 +1,28 @@
+{
+  "name": "CourseSlotStatus",
+  "fields": [
+    {
+      "fieldName": "courseCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "maxSlot",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "currentSlot",
+      "fieldType": "Long"
+    }
+  ],
+  "relationships": [],
+  "changelogDate": "20191215083528",
+  "entityTableName": "course_slot_status",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

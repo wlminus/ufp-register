@@ -23,7 +23,8 @@ spring:
   profiles:
     active: dev
     include:
-      - swagger
+      #      - swagger
+      - no-liquibase
       # Uncomment to activate TLS for the dev profile
       #- tls
   devtools:
@@ -52,7 +53,18 @@ spring:
     cache: false
 
 server:
-  port: 8080
+  port: 9821
+
+
+partial:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:oracle:thin:@192.168.0.113:1521:orcl
+    username: finalproject
+    password: 123456
+    hikari:
+      poolName: Hikari
+      auto-commit: false
 
 # ===================================================================
 # JHipster specific properties
@@ -77,12 +89,12 @@ jhipster:
     authentication:
       jwt:
         # This token must be encoded using Base64 and be at least 256 bits long (you can type `openssl rand -base64 64` on your command line to generate a 512 bits one)
-        base64-secret: YmU3MzdiOThjZmFhYmI1MTg2ZDkxY2I3YmI3YTJhODgyYjIyMTNmYjU3MTM2ZWM0NzhmZTc2MTRjODJlN2M5NmY0YWYyM2FhNzc3YmJmOGNmYzg5NDFhMzMyZjZjZjZiMmNlOGQwODEyNDdlYjA4NDlkOGZmNDEyZjAwOWQ2NTM=
+        base64-secret: ZjJlOGZiYTAzMzc1YzUzYzA3YjM0ODdkMWIwMTY1ZjgzNjQ5ZDhkMTA3NDk1M2ZhMjFjZjYwOTA3NmJiOTFjYTQ3N2NhM2Q3NTQ3NTU0YzkxNTQzZjJhNTI0MDhlNDIzMTQ0NjA2MzJlMzIyOThhODhkMzc5YmRkMDdkNzc3ZWI=
         # Token is valid 24 hours
         token-validity-in-seconds: 86400
         token-validity-in-seconds-for-remember-me: 2592000
   mail: # specific JHipster mail property, for standard properties see MailProperties
-    base-url: http://127.0.0.1:8080
+    base-url: http://127.0.0.1:9821
   metrics:
     logs: # Reports metrics in the logs
       enabled: false

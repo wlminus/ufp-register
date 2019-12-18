@@ -1,0 +1,27 @@
+entity CourseSlotStatus {
+	courseCode String
+    maxSlot Long
+    currentSlot Long
+}
+
+entity StudentRegisterStatus {
+	studentId String
+    isPrior Long
+    maxRegister Long
+    currentRegister Long
+}
+
+entity PassStatus {
+	studentId String
+    coursePass String
+}
+
+entity RequirePair {
+	subjectCode String
+    requireCode String
+}
+
+entity SubjectRequire {
+	subjectCode String
+    requireCode String
+}
