@@ -35,6 +35,9 @@ public class Subject implements Serializable {
     @Column(name = "credit_value")
     private String creditValue;
 
+    @Column(name = "credit_value_number")
+    private Long creditValueNumber;
+
     @Column(name = "jhi_desc")
     private String desc;
 
@@ -51,11 +54,12 @@ public class Subject implements Serializable {
     public Subject() {
     }
 
-    public Subject(String subjectCode, String subjectName, String subjectType, String creditValue, String desc, String department, String status) {
+    public Subject(String subjectCode, String subjectName, String subjectType, String creditValue, Long creditValueNumber, String desc, String department, String status) {
         this.subjectCode = subjectCode;
         this.subjectName = subjectName;
         this.subjectType = subjectType;
         this.creditValue = creditValue;
+        this.creditValueNumber = creditValueNumber;
         this.desc = desc;
         this.department = department;
         this.status = status;
@@ -120,6 +124,14 @@ public class Subject implements Serializable {
     public Subject creditValue(String creditValue) {
         this.creditValue = creditValue;
         return this;
+    }
+
+    public Long getCreditValueNumber() {
+        return creditValueNumber;
+    }
+
+    public void setCreditValueNumber(Long creditValueNumber) {
+        this.creditValueNumber = creditValueNumber;
     }
 
     public String getDesc() {
@@ -211,6 +223,7 @@ public class Subject implements Serializable {
             ", subjectName='" + getSubjectName() + "'" +
             ", subjectType='" + getSubjectType() + "'" +
             ", creditValue='" + getCreditValue() + "'" +
+            ", creditValueNumber='" + getCreditValueNumber() + "'" +
             ", desc='" + getDesc() + "'" +
             ", department='" + getDepartment() + "'" +
             ", status='" + getStatus() + "'" +
