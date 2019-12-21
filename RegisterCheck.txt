@@ -1,0 +1,12 @@
+//Timetable violent
+{
+	"studentCode": "20200283",
+	"requestCourse": ["688405", "113340"]
+}
+
+//Timetable not violent
+{
+	"studentCode": "20200283",
+	"requestCourse": ["688405", "113349"]
+}
+

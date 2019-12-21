@@ -4,6 +4,7 @@ import com.wlminus.ufp.domain.RequirePair;
 import org.springframework.data.cassandra.repository.CassandraRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -12,5 +13,5 @@ import java.util.UUID;
 @SuppressWarnings("unused")
 @Repository
 public interface RequirePairRepository extends CassandraRepository<RequirePair, UUID> {
-
+    Optional<RequirePair> findBySubjectCode(String subjectCode);
 }
