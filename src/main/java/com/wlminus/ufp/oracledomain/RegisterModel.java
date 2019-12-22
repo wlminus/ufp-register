@@ -12,12 +12,15 @@ public class RegisterModel {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    @SequenceGenerator(name = "sequenceGenerator")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Sequence_Generator")
+    @SequenceGenerator(name = "Sequence_Generator")
     private Long id;
 
     @Column(name = "semester")
     private String semester;
+
+    @Column(name = "status")
+    private String status;
 
     @ManyToOne
 //    @JsonIgnoreProperties("courses")
@@ -40,6 +43,14 @@ public class RegisterModel {
 
     public Long getId() {
         return id;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public void setId(Long id) {

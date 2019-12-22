@@ -4,7 +4,7 @@ import com.wlminus.ufp.domain.CourseSlotStatus;
 import org.springframework.data.cassandra.repository.CassandraRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -14,5 +14,5 @@ import java.util.UUID;
 @Repository
 public interface CourseSlotStatusRepository extends CassandraRepository<CourseSlotStatus, UUID> {
 
-    List<CourseSlotStatus> findAllByCourseCodeIn(List<String> courseList);
+    Optional<CourseSlotStatus> findByCourseCode(String course);
 }

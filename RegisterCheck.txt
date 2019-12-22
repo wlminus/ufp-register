@@ -1,3 +1,15 @@
+//Duplicate course
+{
+	"studentCode": "20200283",
+	"requestCourse": ["688405", "688405"]
+}
+
+//Duplicate subject
+{
+	"studentCode": "20200283",
+	"requestCourse": ["111246", "690642"]
+}
+
 //Timetable violent
 {
 	"studentCode": "20200283",
@@ -10,3 +22,35 @@
 	"requestCourse": ["688405", "113349"]
 }
 
+
+//Student register status
+20200281: max 24/current 20
+20200282: not prior
+20200283: valid
+
+//Require code
+CH1026 require CH5356
+688405         692321
+-- Valid require
+{
+	"studentCode": "20200283",
+	"requestCourse": ["688405", "113349", "692321"]
+}
+-- Invalid require
+{
+	"studentCode": "20200283",
+	"requestCourse": ["688405", "113349"]
+}
+
+//Max slot
+{
+	"studentCode": "20200283",
+	"requestCourse": ["688406", "688188", "692321"]
+}
+
+//All Pass
+{
+	"studentCode": "20200283",
+	"requestCourse": ["688406", "688189", "692321"]
+}
+0284 -- 0285 0286

@@ -15,6 +15,7 @@ import com.wlminus.ufp.repository.RequirePairRepository;
 import com.wlminus.ufp.repository.StudentRegisterStatusRepository;
 import com.wlminus.ufp.web.rest.vm.RegisterRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,6 +43,7 @@ public class RegisterController {
     }
 
     @PostMapping("/register")
+    @Transactional
     public ResponseEntity<String> registerClass(@RequestBody RegisterRequest request) {
         System.out.println(request.getStudentCode());
         System.out.println(request.getRequestCourse());
@@ -85,40 +87,111 @@ public class RegisterController {
             }
 
             // Check course pair
-            for (String str : requestCourse) {
-                Optional<RequirePair> requirePair = requirePairRepository.findBySubjectCode(str);
+            List<String> lstSubjectRequest = new ArrayList<>();
+            for (Course course : listCourseChoose) {
+                lstSubjectRequest.add(course.getSubject().getSubjectCode());
+            }
+            for (Course course : listCourseChoose) {
+                Optional<RequirePair> requirePair = requirePairRepository.findBySubjectCode(course.getSubject().getSubjectCode());
                 if (requirePair.isPresent()) {
                     String require = requirePair.get().getRequireCode();
-                    if (!requestCourse.contains(require)) {
+                    if (!lstSubjectRequest.contains(require)) {
                         return ResponseEntity.badRequest().body("Course " + requirePair.get().getSubjectCode() + " require " + require);
                     }
                 }
             }
 
             // Check slot
-            List<CourseSlotStatus> slotStatuses = courseSlotStatusRepository.findAllByCourseCodeIn(requestCourse);
-            for (CourseSlotStatus cst : slotStatuses) {
-                if (cst.getCurrentSlot() + 1 > cst.getMaxSlot()) {
-                    return ResponseEntity.badRequest().body("Course " + cst.getCourseCode() + " reach max register");
+            for (String str : requestCourse) {
+                Optional<CourseSlotStatus> slotStatuses = courseSlotStatusRepository.findByCourseCode(str);
+                if (slotStatuses.isPresent()) {
+                    if (slotStatuses.get().getCurrentSlot() + 1 > slotStatuses.get().getMaxSlot()) {
+                        return ResponseEntity.badRequest().body("Course " + slotStatuses.get().getCourseCode() + " reach max register");
+                    }
                 }
             }
 
             // All check done register process
             Set<RegisterModel> newRegisterList = new HashSet<>();
             Student stu = studentRepository.findByStudentCode(studentCode);
+            // Update student register status
+            Long current = realStudentStatus.getCurrentRegister();
+            realStudentStatus.setCurrentRegister(current + creditValueRequested);
+            studentRegisterStatusRepository.save(realStudentStatus);
+            // Update course slot status
             for (Course cour : listCourseChoose) {
+                Optional<CourseSlotStatus> slotStatuses = courseSlotStatusRepository.findByCourseCode(cour.getCourseCode());
+                CourseSlotStatus courseSlotStatus = slotStatuses.get();
+                courseSlotStatus.setCurrentSlot(courseSlotStatus.getCurrentSlot() + 1);
+                courseSlotStatusRepository.save(courseSlotStatus);
+
+                cour.setCurrentSlot(cour.getCurrentSlot() + 1);
+                courseRepository.save(cour);
+
                 RegisterModel tmp = new RegisterModel();
 
                 tmp.setCourse(cour);
                 tmp.setSemester("2020A");
                 tmp.setStudent(stu);
+                tmp.setStatus("active");
+
+                newRegisterList.add(tmp);
             }
 
             registerModelRepository.saveAll(newRegisterList);
-
             return ResponseEntity.ok().body("Register done");
         } else {
             return ResponseEntity.badRequest().body("Student not existed");
+        }
+    }
+
+    @PostMapping("/remove")
+    @Transactional
+    public ResponseEntity<String> deleteClass(@RequestBody RegisterRequest request) {
+        try {
+            //Remove class process
+            String studentCode = request.getStudentCode();
+            List<String> requestCourse = request.getRequestCourse();
+
+            List<Course> listCourseChooseToRemove = courseRepository.findAllByCourseCodeInList(requestCourse);
+
+
+            Optional<StudentRegisterStatus> dataStudentStatus = studentRegisterStatusRepository.findByStudentId(studentCode);
+            if (dataStudentStatus.isPresent()) {
+                StudentRegisterStatus realStudentStatus = dataStudentStatus.get();
+
+                // Check if request course duplicates
+                Set<String> setCourse = new HashSet<>(requestCourse);
+                if (setCourse.size() < requestCourse.size()) {
+                    return ResponseEntity.badRequest().body("Duplicates course");
+                }
+                //Update student request status
+                Long creditValueRequested = courseRepository.sumCreditValueByCourseIn(requestCourse);
+                Long current = realStudentStatus.getCurrentRegister();
+                realStudentStatus.setCurrentRegister(current - creditValueRequested);
+                studentRegisterStatusRepository.save(realStudentStatus);
+
+                Student stu = studentRepository.findByStudentCode(studentCode);
+
+                // Update course slot status
+                for (Course cour : listCourseChooseToRemove) {
+                    Optional<CourseSlotStatus> slotStatuses = courseSlotStatusRepository.findByCourseCode(cour.getCourseCode());
+                    CourseSlotStatus courseSlotStatus = slotStatuses.get();
+                    courseSlotStatus.setCurrentSlot(courseSlotStatus.getCurrentSlot() - 1);
+                    courseSlotStatusRepository.save(courseSlotStatus);
+
+                    cour.setCurrentSlot(cour.getCurrentSlot() - 1);
+                    courseRepository.save(cour);
+
+                    registerModelRepository.deleteByStudentIdAndCourseId(stu.getId(), cour.getId());
+                }
+
+                return ResponseEntity.ok().body("Remove done");
+            } else {
+                return ResponseEntity.badRequest().body("Student not existed");
+            }
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body("Err" + ex.getMessage());
         }
     }
 
