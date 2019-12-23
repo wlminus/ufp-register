@@ -1,15 +1,16 @@
 package com.wlminus.ufp.config;
 
-import java.time.Duration;
-
-import org.ehcache.config.builders.*;
-import org.ehcache.jsr107.Eh107Configuration;
-
 import io.github.jhipster.config.JHipsterProperties;
-
+import org.ehcache.config.builders.CacheConfigurationBuilder;
+import org.ehcache.config.builders.ExpiryPolicyBuilder;
+import org.ehcache.config.builders.ResourcePoolsBuilder;
+import org.ehcache.jsr107.Eh107Configuration;
 import org.springframework.boot.autoconfigure.cache.JCacheManagerCustomizer;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import java.time.Duration;
 
 @Configuration
 @EnableCaching
@@ -31,8 +32,8 @@ public class CacheConfiguration {
     @Bean
     public JCacheManagerCustomizer cacheManagerCustomizer() {
         return cm -> {
-            createCache(cm, com.wlminus.ufp.repository.UserRepository.USERS_BY_LOGIN_CACHE);
-            createCache(cm, com.wlminus.ufp.repository.UserRepository.USERS_BY_EMAIL_CACHE);
+//            createCache(cm, com.wlminus.ufp.repository.UserRepository.USERS_BY_LOGIN_CACHE);
+//            createCache(cm, com.wlminus.ufp.repository.UserRepository.USERS_BY_EMAIL_CACHE);
             // jhipster-needle-ehcache-add-entry
         };
     }
